@@ -56,16 +56,23 @@ Top 5-minute interval is interval nr. 835
 
 ## Imputing missing values
 ### Process data
-The method for imputing missing values is to calculate median values for each interval.
-Imput missing steps counts according to respective interval.
 
 ```r
 complete_rec <- dt[!is.na(dt$steps),]
 missing <- dt[is.na(dt$steps),]
+```
+Total number of missing values is **2304**.
+
+The method for imputing missing values is to calculate median values for each interval.
+Imput missing steps counts according to respective interval.
+
+```r
 median_steps <- tapply(dt$steps, dt$interval, median, na.rm=TRUE)
 missing[,1] <- median_steps[as.character(missing[,3])]
 dtimp <- rbind(complete_rec, missing)
 ```
+
+
 ### Calculate daily activity with imputed data
 - sum steps taken per day
 - plot histogram
@@ -76,7 +83,7 @@ steps_by_date_imp <- with(dtimp,tapply(steps,date,sum))
 hist(steps_by_date_imp, breaks=6, xlab='Daily steps count', main=paste("Histogram of","steps taken per day - imputed missing data"))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 ```r
 mean(steps_by_date_imp)
@@ -141,4 +148,4 @@ library(lattice)
 xyplot(steps ~ interval | wcat, data=df_out, layout = c(1,2), type='l')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)<!-- -->

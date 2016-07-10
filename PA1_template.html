@@ -158,10 +158,11 @@ plot(x=names(daily_activity),y=daily_activity, type='l', xlab='5-minute interval
 <h2>Imputing missing values</h2>
 <div id="process-data" class="section level3">
 <h3>Process data</h3>
-<p>The method for imputing missing values is to calculate median values for each interval. Imput missing steps counts according to respective interval.</p>
 <pre class="r"><code>complete_rec &lt;- dt[!is.na(dt$steps),]
-missing &lt;- dt[is.na(dt$steps),]
-median_steps &lt;- tapply(dt$steps, dt$interval, median, na.rm=TRUE)
+missing &lt;- dt[is.na(dt$steps),]</code></pre>
+<p>Total number of missing values is <strong>2304</strong>.</p>
+<p>The method for imputing missing values is to calculate median values for each interval. Imput missing steps counts according to respective interval.</p>
+<pre class="r"><code>median_steps &lt;- tapply(dt$steps, dt$interval, median, na.rm=TRUE)
 missing[,1] &lt;- median_steps[as.character(missing[,3])]
 dtimp &lt;- rbind(complete_rec, missing)</code></pre>
 </div>

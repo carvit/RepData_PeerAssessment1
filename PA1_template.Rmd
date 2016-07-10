@@ -37,15 +37,21 @@ Top 5-minute interval is interval nr. `r names(max_interval)`
 
 ## Imputing missing values
 ### Process data
-The method for imputing missing values is to calculate median values for each interval.
-Imput missing steps counts according to respective interval.
 ```{r}
 complete_rec <- dt[!is.na(dt$steps),]
 missing <- dt[is.na(dt$steps),]
+```
+Total number of missing values is **`r dim(missing)[1]`**.
+
+The method for imputing missing values is to calculate median values for each interval.
+Imput missing steps counts according to respective interval.
+```{r}
 median_steps <- tapply(dt$steps, dt$interval, median, na.rm=TRUE)
 missing[,1] <- median_steps[as.character(missing[,3])]
 dtimp <- rbind(complete_rec, missing)
 ```
+
+
 ### Calculate daily activity with imputed data
 - sum steps taken per day
 - plot histogram
